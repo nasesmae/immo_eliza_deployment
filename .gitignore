@@ -1,2 +1,7 @@
 __pycache__/
+
+# Ignore all files in the myenv folder
 myenv/
+
+# Secret key streamlit
+.streamlit/
