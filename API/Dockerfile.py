@@ -5,5 +5,5 @@ COPY api/app.py /api/app.py
 COPY requirements.txt /api
 RUN pip install -r requirements.txt
 ENTRYPOINT ["uvicorn"]
-CMD uvicorn --host 0.0.0.0 --port 8000 app:app
+CMD uvicorn --host 0.0.0.0 --port 8000 api.app:app
 EXPOSE 8000
