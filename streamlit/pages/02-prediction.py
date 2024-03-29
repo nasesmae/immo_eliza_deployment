@@ -7,7 +7,7 @@ import streamlit as st
 with st.sidebar:
     st.image("streamlit\images\logo.webp", width=100)
 
-st.image("streamlit/images/logo.webp", width=100)
+st.image("streamlit/images/header.webp", width=100)
 st.title("Price Prediction API")
 
 # Thin horizontal divider line
