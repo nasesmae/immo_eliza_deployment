@@ -1,6 +1,6 @@
 # Price Prediction API and Web Application
 
-![header app]<img src="https://raw.githubusercontent.com/nasesmae/immo_eliza_deployment/main/streamlit/images/header.webp" alt="header app" width="400"/>
+![header app](https://raw.githubusercontent.com/nasesmae/immo_eliza_deployment/main/streamlit/images/header01.webp)
 
 ## Introduction
 
@@ -16,6 +16,7 @@ This project integrates a machine learning model for predicting property prices,
 
 ## App
 https://immo-eliza-deployment-xzpq.onrender.com/predict
+
 https://price-prediction-property.streamlit.app
 
 ## Features
@@ -30,6 +31,7 @@ https://price-prediction-property.streamlit.app
 - "/predict": A POST request endpoint for submitting property features and receiving a price prediction.
 
 **Streamlit Web Interface**:
+
 The web interface allows users to easily input property features and obtain price predictions without directly interacting with the API.
 
 ## About
