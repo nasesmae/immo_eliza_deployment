@@ -16,6 +16,7 @@ This project integrates a machine learning model for predicting property prices,
 
 ## App
 https://immo-eliza-deployment-xzpq.onrender.com/predict
+
 https://price-prediction-property.streamlit.app
 
 ## Features
