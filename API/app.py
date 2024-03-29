@@ -32,8 +32,6 @@ DEFAULTS = {
         "property_type": "APARTMENT",
         "subproperty_type": "APARTMENT",
         "locality": "MISSING",
-        "kitchen_clusterized": "MISSING",
-        "state_building_clusterized": "MISSING",
         "epc": "MISSING",
     },
 }

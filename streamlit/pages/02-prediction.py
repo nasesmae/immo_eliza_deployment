@@ -1,70 +1,145 @@
 import pandas as pd
 import requests
-import time
 import streamlit as st
 
-# Display the logo and app title
-with st.sidebar:
-    st.image("streamlit/images/logo.webp", width=100)
+# Secret key for API address
+url = "https://immo-eliza-deployment-xzpq.onrender.com/predict"
 
-st.image("streamlit/images/header.webp", width=100)
-st.title("Price Prediction API")
+# Streamlit app title
+st.markdown("<h1 style='text-align: center;'>Real Estate Price Prediction</h1><br>", unsafe_allow_html=True)
 
-# Thin horizontal divider line
-horizontal_bar = "<hr style='margin-top: 0; margin-bottom: 0; height: 1px; border: 1px solid #635985;'><br>"
-st.markdown(horizontal_bar, True)
-st.subheader("How much is your home worth?")
-st.markdown("Price prediction is based on a Machine Learning Model generated from collecting +75,000 listings in Belgium.")
-
-# Load data
+# Loading the dataset
 dataLocality = pd.read_csv("data/locality_zip_codes.csv")
 
-# API address 
-url = "https://immo-eliza-deployment-xzpq.onrender.com/docs"
-
-# User input layout
+# Definition of the property type dictionary and switching key/values for the user interface
 col1, spacer, col2 = st.columns([1, 0.25, 1])
-
 with col1:
-    # Define property type selections
     subproperty_type_dict = {
         "APARTMENT": "Apartment",
         "HOUSE": "House",
-        # Add other types...
+        "APARTMENT_BLOCK": "Apartment Block",
+        "BUNGALOW": "Bungalow",
+        "CASTLE": "Castle",
+        "CHALET": "Chalet",
+        "COUNTRY_COTTAGE": "Country Cottage",
+        "EXEPTIONAL_PROPERTY": "Exceptional Property",
+        "DUPLEX": "Duplex",
+        "FARMHOUSE": "Farmhouse",
+        "FLAT_STUDIO": "Flat Studio",
+        "GROUND_FLOOR": "Ground Floor",
+        "LOFT": "Loft",
+        "KOT": "Kot",
+        "MANOR_HOUSE": "Manor House",
+        "MANSION": "Mansion",
+        "MIXED_USE_BUILDING": "Mixed Use Building",
+        "PENTHOUSE": "Penthouse",
+        "SERVICE_FLAT": "Service Flat",
+        "TOWN_HOUSE": "Town House",
+        "TRIPLEX": "Triplex",
+        "VILLA": "Villa",
+        "OTHER_PROPERTY": "Other Property",
     }
 
-    # Reverse dictionary for display purposes
     switched_dict = {value: key for key, value in subproperty_type_dict.items()}
+
     subproperty_type_key = st.selectbox("Property Type", list(switched_dict.keys()))
     subproperty_type_value = switched_dict[subproperty_type_key]
 
-    # Determine main property type
-    if subproperty_type_value in ("APARTMENT", "DUPLEX", "FLAT_STUDIO", "GROUND_FLOOR", "LOFT", "PENTHOUSE", "SERVICE_FLAT"):
+    if subproperty_type_value in (
+        "APARTMENT",
+        "DUPLEX",
+        "FLAT_STUDIO",
+        "GROUND_FLOOR",
+        "KOT",
+        "LOFT",
+        "PENTHOUSE",
+        "SERVICE_FLAT",
+        "TRIPLEX",
+    ):
         property_type = "APARTMENT"
     else:
         property_type = "HOUSE"
 
-    # Locality selection
-    locality = st.selectbox("Locality", sorted(dataLocality["locality"].unique()))
-    zip_code = st.selectbox("ZIP Code", dataLocality[dataLocality["locality"] == locality]["zip_code"].unique())
+    locality = st.selectbox(
+        "Locality",
+        (
+            "Aalst",
+            "Antwerp",
+            "Arlon",
+            "Ath",
+            "Bastogne",
+            "Brugge",
+            "Brussels",
+            "Charleroi",
+            "Dendermonde",
+            "Diksmuide",
+            "Dinant",
+            "Eeklo",
+            "Gent",
+            "Halle-Vilvoorde",
+            "Hasselt",
+            "Huy",
+            "Ieper",
+            "Kortrijk",
+            "Leuven",
+            "Liège",
+            "Maaseik",
+            "Marche-en-Famenne",
+            "Mechelen",
+            "Mons",
+            "Mouscron",
+            "Namur",
+            "Neufchâteau",
+            "Nivelles",
+            "Oostend",
+            "Oudenaarde",
+            "Philippeville",
+            "Roeselare",
+            "Sint-Niklaas",
+            "Soignies",
+            "Thuin",
+            "Tielt",
+            "Tongeren",
+            "Tournai",
+            "Turnhout",
+            "Verviers",
+            "Veurne",
+            "Virton",
+            "Waremme",
+        ),
+    )
+    if locality:
+        data = dataLocality[dataLocality["locality"] == f"{locality}"]
+        zip_code = st.selectbox("ZIP Code", data["zip_code"].to_list())
 
-    # Other property attributes
     construction_year = st.number_input("Construction Year", value=2000, min_value=1800, max_value=2024)
     total_area_sqm = st.number_input("Total Living Area in m²", value=150, min_value=10, max_value=1000)
     epc = st.selectbox("Energy Performance Certificate", ("A++", "A+", "A", "B", "C", "D", "E", "F", "G", "Unknown"))
 
 with col2:
-    # Additional property attributes
-    nbr_bedrooms = st.slider("Number of Bedrooms", 1, 10, 3)
-    surface_land_sqm = st.slider("Total land area in m²", 10, 1000, 150)
-    nbr_frontages = st.slider("Number of Frontages", 0, 5, 2)
+    nbr_bedrooms = st.slider("Number of Bedrooms", value=3, min_value=1, max_value=10)
+    surface_land_sqm = st.slider("Total land area in m²", value=150, min_value=10, max_value=1000)
+    nbr_frontages = st.slider("Number of Frontages", value=1, min_value=0, max_value=5)
+    
     fl_terrace = st.checkbox("Terrace", value=True)
+    if fl_terrace:
+        terrace_sqm = st.slider(
+            "Terrace Area in m²", value=20, min_value=10, max_value=100
+        )
+    else:
+        terrace_sqm = 0
     fl_garden = st.checkbox("Garden", value=True)
+    if fl_garden:
+        garden_sqm = st.slider(
+            "Garden Area in m²", value=80, min_value=10, max_value=1000
+        )
+    else:
+        garden_sqm = 0
     fl_swimming_pool = st.checkbox("Swimming Pool")
     fl_double_glazing = st.checkbox("Double Glazing")
     fl_open_fire = st.checkbox("Open Fire")
 
-# Construct payload for the API request
+# Assembling the payload for the API request
 payload = {
     "num_features": {
         "construction_year": construction_year,
@@ -72,7 +147,9 @@ payload = {
         "surface_land_sqm": surface_land_sqm,
         "nbr_frontages": nbr_frontages,
         "nbr_bedrooms": nbr_bedrooms,
-        "zip_code": int(zip_code),
+        "terrace_sqm": terrace_sqm,
+        "garden_sqm": garden_sqm,
+        "zip_code": zip_code,
     },
     "fl_features": {
         "fl_terrace": int(fl_terrace),
@@ -85,20 +162,23 @@ payload = {
         "property_type": property_type,
         "subproperty_type": subproperty_type_value,
         "locality": locality,
-        "epc": "MISSING" if epc == "Unknown" else epc,
+        "epc": epc,
     },
 }
-
-# Button to send the request and display the prediction
+# Prediction button and result display
 if st.button("Predict Price"):
-    with st.spinner("Getting predictions..."):
-        time.sleep(1)  # Simulate a delay for user feedback
     try:
         response = requests.post(url, json=payload)
         if response.status_code == 200:
             prediction = response.json()
-            st.success(f"Predicted Price: {prediction['predicted_price']} €")
+            st.markdown(
+                f'<div style="text-align:center; font-size:24px; background-color:darkgreen; color:white; padding:10px; border-radius:10px;">Your property price : {prediction["Prediction of price"]}</div>',
+                unsafe_allow_html=True,
+            )
+            # Optionally, display more prediction details here
         else:
-            st.error("Failed to get prediction from the API. Please try again later.")
+            st.error(f"Failed to get response: {response.status_code}")
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
+
+
