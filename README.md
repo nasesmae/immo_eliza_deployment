@@ -1,6 +1,6 @@
 # Price Prediction API and Web Application
 
-![header app](https://raw.githubusercontent.com/nasesmae/immo_eliza_deployment/main/streamlit/images/header.webp)
+![header app](<img src="https://raw.githubusercontent.com/nasesmae/immo_eliza_deployment/main/streamlit/images/header.webp" alt="header app" width="400"/>)
 
 ## Introduction
 
