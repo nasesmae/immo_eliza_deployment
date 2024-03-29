@@ -15,7 +15,7 @@ This project integrates a machine learning model for predicting property prices,
 - `requirements.txt`: Python packages required for running the application.
 
 ## App
-https://immo-eliza-deployment-xzpq.onrender.com/predict
+https://immo-eliza-deployment-xzpq.onrender.com/docs
 
 https://price-prediction-property.streamlit.app
 
