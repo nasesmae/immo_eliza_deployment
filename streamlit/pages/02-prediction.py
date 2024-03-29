@@ -5,7 +5,7 @@ import streamlit as st
 
 # Display the logo and app title
 with st.sidebar:
-    st.image("streamlit\images\logo.webp", width=100)
+    st.image("streamlit/images/logo.webp", width=100)
 
 st.image("streamlit/images/header.webp", width=100)
 st.title("Price Prediction API")
@@ -19,8 +19,8 @@ st.markdown("Price prediction is based on a Machine Learning Model generated fro
 # Load data
 dataLocality = pd.read_csv("data/locality_zip_codes.csv")
 
-# API address from secret key
-url = st.secrets["api_url"]
+# API address 
+url = "https://immo-eliza-deployment-xzpq.onrender.com/docs"
 
 # User input layout
 col1, spacer, col2 = st.columns([1, 0.25, 1])
