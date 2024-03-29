@@ -30,6 +30,7 @@ https://price-prediction-property.streamlit.app
 - "/predict": A POST request endpoint for submitting property features and receiving a price prediction.
 
 **Streamlit Web Interface**:
+
 The web interface allows users to easily input property features and obtain price predictions without directly interacting with the API.
 
 ## About
