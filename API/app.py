@@ -1,5 +1,4 @@
 from typing import Dict
-
 import joblib
 import numpy as np
 import pandas as pd
@@ -36,7 +35,7 @@ DEFAULTS = {
     },
 }
 
-# Load model and artifacts once during startup
+# Load model and artifacts 
 artifacts = joblib.load("API/XGBoost_artifacts.pkl")
 imputer = artifacts["imputer"]
 enc = artifacts["enc"]
@@ -99,7 +98,7 @@ async def predict(features: Features):
         predicted_value = predictions.tolist()[0]
 
         # Use model's performance to set range of predicted price
-        MAE = 0.186  # Ideally, this should be loaded dynamically from your model artifacts
+        MAE = 0.004  # Ideally, this should be loaded dynamically from your model artifacts
         lower_bound = predicted_value * (1 - MAE)
         upper_bound = predicted_value * (1 + MAE)
 
