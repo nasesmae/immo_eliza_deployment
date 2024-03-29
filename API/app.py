@@ -31,9 +31,12 @@ DEFAULTS = {
         "property_type": "APARTMENT",
         "subproperty_type": "APARTMENT",
         "locality": "MISSING",
+        "kitchen_clusterized": "MISSING",
+        "state_building_clusterized": "MISSING",
         "epc": "MISSING",
     },
 }
+
 
 # Load model and artifacts 
 artifacts = joblib.load("API/XGBoost_artifacts.pkl")
