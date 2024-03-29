@@ -2,7 +2,16 @@ import pandas as pd
 import requests
 import streamlit as st
 
-# Secret key for API address
+# URL to the logo image
+logo_url = "https://raw.githubusercontent.com/nasesmae/immo_eliza_deployment/main/streamlit/images/logo.webp"
+
+# Adding the logo at the top center of the app
+st.markdown(
+    f"<div style='text-align: center;'><img src='{logo_url}' style='max-width: 100px;'></div>",
+    unsafe_allow_html=True,
+)
+
+# API address
 url = "https://immo-eliza-deployment-xzpq.onrender.com/predict"
 
 # Streamlit app title
